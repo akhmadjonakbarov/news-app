@@ -3,11 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:news_app/models/models.dart';
+
 class New {
   final int id;
   final String title;
   final String description;
-  final int view;
   final String created_on;
   final String updated_on;
   final List images;
@@ -15,7 +16,6 @@ class New {
     required this.id,
     required this.title,
     required this.description,
-    required this.view,
     required this.created_on,
     required this.updated_on,
     required this.images,
@@ -25,16 +25,14 @@ class New {
     int? id,
     String? title,
     String? description,
-    int? view,
     String? created_on,
     String? updated_on,
-    List? images,
+    List<NewImage>? images,
   }) {
     return New(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      view: view ?? this.view,
       created_on: created_on ?? this.created_on,
       updated_on: updated_on ?? this.updated_on,
       images: images ?? this.images,
@@ -46,10 +44,9 @@ class New {
       'id': id,
       'title': title,
       'description': description,
-      'view': view,
       'created_on': created_on,
       'updated_on': updated_on,
-      'images': images,
+      'images': images.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -58,10 +55,13 @@ class New {
       id: map['id'] as int,
       title: map['title'] as String,
       description: map['description'] as String,
-      view: map['view'] as int,
       created_on: map['created_on'] as String,
       updated_on: map['updated_on'] as String,
-      images: List.from((map['images'] as List)),
+      images: List<NewImage>.from(
+        (map['images'] as List<int>).map<NewImage>(
+          (x) => NewImage.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
   }
 
@@ -72,7 +72,7 @@ class New {
 
   @override
   String toString() {
-    return 'New(id: $id, title: $title, description: $description, view: $view, created_on: $created_on, updated_on: $updated_on, images: $images)';
+    return 'New(id: $id, title: $title, description: $description, created_on: $created_on, updated_on: $updated_on, images: $images)';
   }
 
   @override
@@ -82,7 +82,6 @@ class New {
     return other.id == id &&
         other.title == title &&
         other.description == description &&
-        other.view == view &&
         other.created_on == created_on &&
         other.updated_on == updated_on &&
         listEquals(other.images, images);
@@ -93,7 +92,6 @@ class New {
     return id.hashCode ^
         title.hashCode ^
         description.hashCode ^
-        view.hashCode ^
         created_on.hashCode ^
         updated_on.hashCode ^
         images.hashCode;

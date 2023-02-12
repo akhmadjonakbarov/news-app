@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-import '../../models/models.dart';
+import '../../../models/models.dart';
 
 part 'news_state.dart';
 

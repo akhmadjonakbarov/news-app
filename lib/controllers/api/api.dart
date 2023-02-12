@@ -1,5 +1,5 @@
 class Api {
-  static String mobileApp = "10.0.2.2";
-  static String windowsApp = "127.0.0.1";
-  static String baseUrl = 'https://taxibackend-production.up.railway.app';
+  static String mobileApp = "http://10.0.2.2:8000/";
+  static String windowsApp = "http://127.0.0.1:8000/";
+  static String newsEndPoint = "api/news/get-mobile/";
 }

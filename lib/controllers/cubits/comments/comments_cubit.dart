@@ -1,9 +1,11 @@
 import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
-import 'package:news_app/controllers/api/api.dart';
-import 'package:news_app/models/models.dart';
+import 'package:meta/meta.dart';
+
+import '../../../models/models.dart';
+import '../../api/api.dart';
 
 part 'comments_state.dart';
 

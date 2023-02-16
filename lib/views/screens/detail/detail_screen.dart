@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:news_app/views/screens/screens.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/controllers/cubits/comments/comments_cubit.dart';
+import '../screens.dart';
+import 'package:news_app/models/models.dart' as model;
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -13,6 +16,13 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   double height = 0;
   double width = 0;
+  late model.New new_;
+
+  @override
+  void didChangeDependencies() {
+    new_ = ModalRoute.of(context)!.settings.arguments as model.New;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +45,9 @@ class _DetailScreenState extends State<DetailScreen> {
                   children: [
                     InkWell(
                       borderRadius: BorderRadius.circular(10),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(0),
                         child: const Icon(
@@ -49,19 +61,20 @@ class _DetailScreenState extends State<DetailScreen> {
               SizedBox(
                 height: height * 0.010,
               ),
-              const Text(
-                "Tips for Preventing And Controlling High Blood Pressure",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              Text(
+                new_.title,
+                style:
+                    const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: height * 0.010,
               ),
               Container(
                 decoration: const BoxDecoration(),
-                child: const Text(
-                  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. ",
+                child: Text(
+                  new_.description,
                   textAlign: TextAlign.justify,
-                  style: TextStyle(
+                  style: const TextStyle(
                     height: 1.5,
                     fontSize: 18,
                   ),
@@ -152,6 +165,9 @@ class _DetailScreenState extends State<DetailScreen> {
               icon: CupertinoIcons.captions_bubble_fill,
               onTap: () {
                 Navigator.of(context).pushNamed(CommentsScreen.routeName);
+                BlocProvider.of<CommentsCubit>(context).getComments(
+                  newId: new_.id,
+                );
               },
               text: "999",
             ),

@@ -8,7 +8,7 @@ class CategoriesInitial extends CategoriesState {}
 class CategoriesLoading extends CategoriesState {}
 
 class CategoriesLoaded extends CategoriesState {
-  final List<Category> categories;
+  final List<model.Category> categories;
   CategoriesLoaded({required this.categories});
 }
 

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/controllers/cubits/categories/categories_cubit.dart';
-import 'package:news_app/views/screens/detail/detail_screen.dart';
-import './views/screens/screens.dart';
+import 'package:news_app/controllers/cubits/news/news_cubit.dart';
+
+import 'controllers/cubits/categories/categories_cubit.dart';
+import 'controllers/cubits/comments/comments_cubit.dart';
+import 'controllers/cubits/sliders/sliders_cubit.dart';
+import 'views/screens/screens.dart';
 
 void main() => runApp(const MyApp());
 
@@ -15,9 +18,18 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider.value(
           value: CategoriesCubit(),
-        )
+        ),
+        BlocProvider.value(
+          value: CommentsCubit(),
+        ),
+        BlocProvider.value(
+          value: SlidersCubit(),
+        ),
+        BlocProvider.value(
+          value: NewsCubit(),
+        ),
       ],
-      child: Wrap(),
+      child: const Wrap(),
     );
   }
 }
@@ -32,9 +44,9 @@ class Wrap extends StatefulWidget {
 class _WrapState extends State<Wrap> {
   @override
   void didChangeDependencies() {
-    BlocProvider.of<CategoriesCubit>(context)
-        .getCategories()
-        .then((value) => print("ddd"));
+    BlocProvider.of<CategoriesCubit>(context).getCategories();
+    BlocProvider.of<SlidersCubit>(context).getSliders();
+    BlocProvider.of<NewsCubit>(context).getNews();
     super.didChangeDependencies();
   }
 
@@ -43,10 +55,11 @@ class _WrapState extends State<Wrap> {
     return MaterialApp(
       title: 'News App',
       debugShowCheckedModeBanner: false,
-      home: DetailScreen(),
+      initialRoute: HomeScreen.routeName,
       routes: {
-        CommentsScreen.routeName: (context) => CommentsScreen(),
-        DetailScreen.routeName: (context) => DetailScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        CommentsScreen.routeName: (context) => const CommentsScreen(),
+        DetailScreen.routeName: (context) => const DetailScreen(),
       },
     );
   }

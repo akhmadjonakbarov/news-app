@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart' as http;
+// ignore: depend_on_referenced_packages
 import 'package:meta/meta.dart';
 
 import '../../../models/models.dart';
@@ -22,6 +23,7 @@ class CommentsCubit extends Cubit<CommentsState> {
       for (Map<String, dynamic> comment in resData) {
         comments.add(Comment.fromMap(comment));
       }
+      emit(CommentsLoaded(comments: comments));
     } catch (e) {
       emit(CommentsError(errorMsg: e.toString()));
     }

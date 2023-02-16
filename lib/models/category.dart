@@ -8,26 +8,18 @@ import 'package:news_app/models/models.dart';
 class Category {
   final int id;
   final String name;
-  final List news;
-  final String description;
   Category({
     required this.id,
     required this.name,
-    required this.news,
-    required this.description,
   });
 
   Category copyWith({
     int? id,
     String? name,
-    List<New>? news,
-    String? description,
   }) {
     return Category(
       id: id ?? this.id,
       name: name ?? this.name,
-      news: news ?? this.news,
-      description: description ?? this.description,
     );
   }
 
@@ -35,8 +27,6 @@ class Category {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'news': news.map((x) => x.toMap()).toList(),
-      'description': description,
     };
   }
 
@@ -44,12 +34,6 @@ class Category {
     return Category(
       id: map['id'] as int,
       name: map['name'] as String,
-      news: List<New>.from(
-        (map['news'] as List<int>).map<New>(
-          (x) => New.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      description: map['description'] as String,
     );
   }
 
@@ -59,22 +43,15 @@ class Category {
       Category.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'Category(id: $id, name: $name, news: $news, description: $description)';
-  }
+  String toString() => 'Category(id: $id, name: $name)';
 
   @override
   bool operator ==(covariant Category other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.name == name &&
-        listEquals(other.news, news) &&
-        other.description == description;
+    return other.id == id && other.name == name;
   }
 
   @override
-  int get hashCode {
-    return id.hashCode ^ name.hashCode ^ news.hashCode ^ description.hashCode;
-  }
+  int get hashCode => id.hashCode ^ name.hashCode;
 }

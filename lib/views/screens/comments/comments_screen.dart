@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/controllers/cubits/comments/comments_cubit.dart';
+import 'package:news_app/models/comment.dart';
 
 class CommentsScreen extends StatefulWidget {
   const CommentsScreen({super.key});
@@ -55,133 +58,54 @@ class _CommentsScreenState extends State<CommentsScreen> {
             SizedBox(
               height: height * 0.02,
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Akhmadjon Akbarov",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+            BlocBuilder<CommentsCubit, CommentsState>(
+              builder: (context, state) {
+                if (state is CommentsLoaded) {
+                  return Expanded(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: height * 0.02,
+                        );
+                      },
+                      padding: const EdgeInsets.all(0),
+                      itemCount: state.comments.length,
+                      itemBuilder: (context, index) {
+                        Comment comment = state.comments[index];
+                        return Container(
+                          decoration: const BoxDecoration(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                comment.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: height * 0.005,
+                              ),
+                              Text(
+                                comment.body,
+                                style: const TextStyle(
+                                  fontSize: 17,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          const Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Akhmadjon Akbarov",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Akhmadjon Akbarov",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Akhmadjon Akbarov",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Akhmadjon Akbarov",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: height * 0.01,
-                          ),
-                          Text(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-                            style: TextStyle(
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             )
           ],
         ),
